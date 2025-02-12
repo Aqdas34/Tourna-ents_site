@@ -1,0 +1,34 @@
+<!-- templates/virtual_assistants/assistant_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Virtual Assistants</h2>
+
+<div class="mb-3">
+    <a href="{% url 'add_virtual_assistant' %}" class="btn btn-success">Add Virtual Assistant</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for assistant in assistants %}
+        <tr>
+            <td>{{ assistant.name }}</td>
+            <td>{{ assistant.email }}</td>
+            <td>{% if assistant.is_active %}Active{% else %}Inactive{% endif %}</td>
+            <td>
+                <a href="{% url 'edit_virtual_assistant' assistant.id %}" class="btn btn-primary btn-sm">Edit</a>
+                <a href="{% url 'delete_virtual_assistant' assistant.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

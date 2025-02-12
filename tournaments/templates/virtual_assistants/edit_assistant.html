@@ -1,0 +1,26 @@
+<!-- templates/virtual_assistants/edit_assistant.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Edit Virtual Assistant</h2>
+
+<form method="POST" action="{% url 'edit_virtual_assistant' assistant.id %}">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ assistant.name }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" value="{{ assistant.email }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="is_active" class="form-label">Is Active</label>
+        <select class="form-control" id="is_active" name="is_active">
+            <option value="True" {% if assistant.is_active %}selected{% endif %}>Active</option>
+            <option value="False" {% if not assistant.is_active %}selected{% endif %}>Inactive</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Virtual Assistant</button>
+</form>
+{% endblock %}

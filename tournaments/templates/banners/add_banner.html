@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Add a New Banner</h2>
+    
+    <!-- Banner Form -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="link_url" class="form-label">Banner URL</label>
+            <input type="url" class="form-control" id="link_url" name="link_url" required placeholder="Enter the banner URL">
+        </div>
+        
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload Image</label>
+            <input type="file" class="form-control" id="image" name="image" required accept="image/*">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">🎉 Explore Tournaments</h1>
+
+    <!-- Banner Carousel (Only display if banners are available) -->
+    {% if banners %}
+    <div id="bannerCarousel" class="carousel slide mb-4" data-bs-ride="carousel" data-bs-touch="true">
+        <div class="carousel-inner">
+            {% for banner in banners %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="carousel-image-container">
+                        <img src="{{ banner.image.url }}" class="d-block w-100 banner-img" alt="Banner Image">
+                        <div class="carousel-caption d-none d-md-block caption-container">
+                            <h5>
+                                <a href="{{ banner.link_url }}" target="_blank" class="text-light text-hover">{{ banner.link_url }}</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% else %}
+    <p class="text-center text-muted">No banners available at the moment. Please check back later!</p>
+    {% endif %}
+
+    <!-- Search Bar -->
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto">
+            <form method="GET" action="{% url 'homepage' %}">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        name="search" 
+                        class="form-control" 
+                        placeholder="Search tournaments by name, location, or date..."
+                        value="{{ request.GET.search|default:'' }}">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tournament Cards -->
+    <div class="row">
+        {% for tournament in tournaments %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tournament.event_name }}</h5>
+                        <p class="card-text">
+                            <strong>Date:</strong> {{ tournament.date }} <br>
+                            <strong>Location:</strong> {{ tournament.location }}
+                        </p>
+                        <a href="{% url 'tournament_details' tournament.id %}" class="btn btn-primary w-100">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No tournaments found. Try a different search!</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+        {% if tournaments.has_other_pages %}
+            <nav>
+                <ul class="pagination">
+                    {% if tournaments.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ tournaments.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for num in tournaments.paginator.page_range %}
+                        <li class="page-item {% if tournaments.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if tournaments.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ tournaments.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .carousel-image-container {
+        position: relative;
+    }
+
+    .banner-img {
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .banner-img:hover {
+        transform: scale(1.1);
+    }
+
+    .caption-container {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 5px;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .caption-container h5 {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .caption-container a {
+        color: white;
+        text-decoration: none;
+    }
+
+    .caption-container a:hover {
+        text-decoration: underline;
+        color: #f39c12;
+    }
+
+    /* Hover effect for carousel */
+    .carousel-item {
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item:hover {
+        transform: scale(1.05);
+    }
+
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-color: #f39c12; /* Make the arrows match the theme */
+    }
+
+    /* Smooth transition for carousel captions */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}

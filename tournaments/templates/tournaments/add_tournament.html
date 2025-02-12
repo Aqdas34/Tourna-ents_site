@@ -1,0 +1,102 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Add Tournament</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body> -->
+
+{% extends 'base.html' %}
+
+{% block  content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Add Tournament</h1>
+
+    <!-- Display messages -->
+    {% if messages %}
+        <div class="alert alert-info">
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Tournament form -->
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="event_name">Event Name</label>
+            <input type="text" id="event_name" name="event_name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age_group">Age Group</label>
+            <input type="text" id="age_group" name="age_group" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" class="form-control" required>
+                <option value="boys">Boys</option>
+                <option value="girls">Girls</option>
+                <option value="both">Both</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="event_type">Event Type</label>
+            <select id="event_type" name="event_type" class="form-control" required>
+                <option value="dual">Dual</option>
+                <option value="individual">Individual</option>
+                <option value="both">Both</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="style">Style</label>
+            <select id="style" name="style" class="form-control" required>
+                <option value="folkstyle">Folkstyle</option>
+                <option value="freestyle">Freestyle</option>
+                <option value="both">Both</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="flyer_url">Flyer URL</label>
+            <input type="url" id="flyer_url" name="flyer_url" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="club_name">Club Name</label>
+            <input type="text" id="club_name" name="club_name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="tournament_director">Tournament Director</label>
+            <input type="text" id="tournament_director" name="tournament_director" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact_info">Contact Info</label>
+            <textarea id="contact_info" name="contact_info" class="form-control" rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Add Tournament</button>
+    </form>
+</div>
+{% endblock %}
+    <!-- </div>
+</body>
+</html> -->

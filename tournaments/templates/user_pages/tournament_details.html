@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Tournament Details{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h1 class="card-title text-center">{{ tournament.event_name }}</h1>
+            <hr>
+            <p class="card-text">
+                <strong>Date:</strong> {{ tournament.date }}<br>
+                <strong>Location:</strong> {{ tournament.location }}<br>
+                <strong>Age Group:</strong> {{ tournament.age_group }}<br>
+                <strong>Gender:</strong> {{ tournament.gender }}<br>
+                <strong>Style:</strong> {{ tournament.style }}
+            </p>
+            <a href="{% url 'homepage' %}" class="btn btn-secondary mt-3">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
